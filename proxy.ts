@@ -8,9 +8,10 @@ export async function proxy(request: NextRequest) {
   // Gestion des sous-domaines personnalisés
   // Format attendu: {slug}.votredomaine.com
   const mainDomain = process.env.NEXT_PUBLIC_MAIN_DOMAIN || 'localhost:3000';
+  const isVercelDomain = hostname.includes('.vercel.app');
 
-  // Vérifier si c'est un sous-domaine
-  if (hostname !== mainDomain && !hostname.startsWith('www.')) {
+  // Vérifier si c'est un sous-domaine (ignorer les domaines Vercel)
+  if (!isVercelDomain && hostname !== mainDomain && !hostname.startsWith('www.')) {
     // Extraire le slug du sous-domaine
     const subdomain = hostname.split('.')[0];
 
